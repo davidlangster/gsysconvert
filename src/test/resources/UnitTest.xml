@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<UnitTest>
+    <Suites>
+        <Suite id="test#1" class="com.funkdefino.gsysconvert.GSysUnitTest">
+            <method>test01</method>
+        </Suite>
+    </Suites>
+</UnitTest>
