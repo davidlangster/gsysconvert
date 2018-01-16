@@ -3,6 +3,7 @@
     <Suites>
         <Suite id="test#1" class="com.funkdefino.gsysconvert.GSysUnitTest">
             <method>test01</method>
+            <method>test02</method>
         </Suite>
     </Suites>
 </UnitTest>

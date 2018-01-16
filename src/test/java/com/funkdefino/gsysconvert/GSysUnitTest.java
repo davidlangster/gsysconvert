@@ -36,9 +36,9 @@ public final class GSysUnitTest extends CTestCase {
 
     public void test01() throws Exception {
         byte[] arr = IOUtil.loadResource(getClass(), "GSysSelect.syx");
-        for(byte b : arr) {
+        for(byte b : arr)
             System.out.print(String.format("%02X ", b));
-        }
+        System.out.println();
     }
 
     public void test02() throws Exception {
