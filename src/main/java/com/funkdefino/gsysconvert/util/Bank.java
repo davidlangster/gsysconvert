@@ -74,7 +74,7 @@ public final class Bank {
         while(ii.hasNext()) {
             XmlElement preset = ii.next();
             int id = Integer.parseInt(XmlValidate.getAttribute(preset, AttrbNumber));
-            byte c = Byte.parseByte(preset.getContent());
+            byte c = Byte.parseByte(preset.getContent(), 2);
             presets.put(id, c);
         }
 

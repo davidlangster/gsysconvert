@@ -2,12 +2,12 @@
     <Sysex>400101</Sysex>
     <Presets>
         <Bank number="32" name="Changes">
-            <Preset number="1">03</Preset>
-            <Preset number="2">02</Preset>
-            <Preset number="3">00</Preset>
+            <Preset number="1">0111</Preset>
+            <Preset number="2">0011</Preset>
+            <Preset number="3">0000</Preset>
         </Bank>
         <Bank number="33" name="Space">
-            <Preset number="4">03</Preset>
+            <Preset number="4">0001</Preset>
         </Bank>
     </Presets>
 </GSysSelect>
