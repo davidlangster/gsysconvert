@@ -49,4 +49,17 @@ public final class GSysUnitTest extends CTestCase {
         }
     }
 
+    public void test03() throws Exception {
+
+        XmlDocument doc = XmlDocument.fromResource(getClass(), "GSysConvert.xml");
+        GSysConfig gsysconfig = new GSysConfig(doc.getRootElement());
+        byte arr[] = Format.execute(gsysconfig);
+        StringBuffer sb = new StringBuffer();
+        for(byte b : arr) {
+            sb.append(String.format("%02X ", b));
+        }
+
+        System.out.println(sb.toString());
+    }
+
 }   // class ConfigurationUnitTest
