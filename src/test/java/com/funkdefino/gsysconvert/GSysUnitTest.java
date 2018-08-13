@@ -60,6 +60,7 @@ public final class GSysUnitTest extends CTestCase {
         }
 
         System.out.println(sb.toString());
+
     }
 
 }   // class ConfigurationUnitTest
