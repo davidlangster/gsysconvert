@@ -38,6 +38,7 @@ public final class Format {
             baos.write(sysexId,0,sysexId.length);
             baos.write(gsysconfig.presets());
 
+            // Presets
             for(Bank bank : gsysconfig.getBanks()) {
                 byte[] arr = formatBank(bank);
                 baos.write(arr,0, arr.length);
@@ -46,6 +47,7 @@ public final class Format {
             baos.write(SYSEX_SECT);
             baos.write(gsysconfig.getBanks().size());
 
+            // Vtrg
             for(Bank bank : gsysconfig.getBanks()) {
                 byte[] arr = formatVtrg(bank);
                 baos.write(arr,0, arr.length);
