@@ -1,6 +1,8 @@
 package com.funkdefino.gsysconvert.util;
 import com.funkdefino.common.util.UtilException;
 import com.funkdefino.common.util.xml.*;
+
+import java.math.BigInteger;
 import java.util.*;
 
 /**
@@ -15,12 +17,14 @@ public final class Bank {
 
     private final static String AttrbName   = "name";
     private final static String AttrbNumber = "number";
+    private final static String AttrbVtrg   = "vtrg";
 
     //** ------------------------------------------------------------------ Data
 
     private Map<Integer,Byte> presets = new HashMap<Integer, Byte>();
     private String name;
     private int number;
+    private byte vtrg;
 
     //** ---------------------------------------------------------- Construction
 
@@ -38,7 +42,8 @@ public final class Bank {
     public int getNumber () {return number;}
     public String getName() {return name;  }
     public Map<Integer,Byte> getPresets() {return presets;}
-    public int size() {return presets.size();}
+    public int  size() {return presets.size();}
+    public byte getVtrg() {return vtrg;}
 
     /**
      * Returns a textual description.
@@ -52,6 +57,8 @@ public final class Bank {
         sb.append(name).append(";[");
         for(Map.Entry<Integer,Byte> entry : presets.entrySet())
             sb.append(String.format("%02d,%02d;", entry.getKey(),entry.getValue()));
+        sb.append("][");
+        sb.append(String.format("%05d", new BigInteger(Integer.toBinaryString(vtrg))));
         sb.append(']');
 
         return sb.toString();
@@ -77,6 +84,9 @@ public final class Bank {
             byte c = Byte.parseByte(preset.getContent(), 2);
             presets.put(id, c);
         }
+
+        String vt = XmlValidate.getAttribute(config, AttrbVtrg, "0");
+        vtrg = (byte)Integer.parseInt(vt, 2);
 
     }   // initialise()
 

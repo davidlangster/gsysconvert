@@ -14,6 +14,7 @@ public final class Format {
     //** ------------------------------------------------------------- Constants
 
     private final static byte SYSEX_START = (byte)0xF0;
+    private final static byte SYSEX_SECT  = (byte)0xF6;
     private final static byte SYSEX_END   = (byte)0xF7;
     private final static int  PRESETS     = 5;
     private final static int  BLOCK       = (PRESETS * 10);
@@ -39,6 +40,14 @@ public final class Format {
 
             for(Bank bank : gsysconfig.getBanks()) {
                 byte[] arr = formatBank(bank);
+                baos.write(arr,0, arr.length);
+            }
+
+            baos.write(SYSEX_SECT);
+            baos.write(gsysconfig.getBanks().size());
+
+            for(Bank bank : gsysconfig.getBanks()) {
+                byte[] arr = formatVtrg(bank);
                 baos.write(arr,0, arr.length);
             }
 
@@ -80,5 +89,27 @@ public final class Format {
         return arr;
 
     }   // formatBank()
+
+    /**
+     * Returns an array representing a preset bank vtrg, consisting of
+     * a base preset identifier (first in the bank) and vtrg mask.
+     * @param bank the bank.
+     * @return the array.
+     */
+    private static byte[] formatVtrg(Bank bank) {
+
+        byte[] arr = new byte[2];
+
+        int base = bank.getNumber() * PRESETS;
+        while(base - BLOCK >= BLOCK) {
+            base -= BLOCK;
+        }
+
+        arr[0] = (byte)(base - 1);
+        arr[1] = bank.getVtrg();
+
+        return arr;
+
+    }   // formatVtrg()
 
 }   // class Convert

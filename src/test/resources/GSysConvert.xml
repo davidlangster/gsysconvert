@@ -1,13 +1,13 @@
 <GSysSelect dst="GSysSelect_.syx">
     <Sysex>400101</Sysex>
     <Presets>
-        <Bank number="32" name="Changes">
-            <Preset number="1">0111</Preset>
-            <Preset number="2">0011</Preset>
-            <Preset number="3">0000</Preset>
+        <Bank number="32" name="Changes" vtrg="00001">
+            <Preset number="1">00000111</Preset>
+            <Preset number="2">0100011</Preset>
+            <Preset number="3">00000000</Preset>
         </Bank>
         <Bank number="33" name="Space">
-            <Preset number="4">0001</Preset>
+            <Preset number="4">01000001</Preset>
         </Bank>
     </Presets>
 </GSysSelect>
