@@ -19,6 +19,12 @@ public final class Format {
     private final static int  PRESETS     = 5;
     private final static int  BLOCK       = (PRESETS * 10);
 
+    private final static byte SYSEX_CMND_USB   = 0x00;
+    private final static byte SYSEX_CMND_PRST  = 0x01;
+    private final static byte SYSEX_CMND_STORE = 0x02;
+    private final static byte SYSEX_CMND_VTRG  = 0x03;
+    private final static byte SYSEX_CMND_STRG  = 0x04;
+
     //** ------------------------------------------------------------ Operations
 
     /**
@@ -36,21 +42,35 @@ public final class Format {
 
             baos.write(SYSEX_START);
             baos.write(sysexId,0,sysexId.length);
+
+            // Presets ---------------------------------------------------------
+            baos.write(SYSEX_SECT);
+            baos.write(SYSEX_CMND_PRST);
             baos.write(gsysconfig.presets());
 
-            // Presets
             for(Bank bank : gsysconfig.getBanks()) {
                 byte[] arr = formatBank(bank);
                 baos.write(arr,0, arr.length);
             }
 
+            // Vtrg ------------------------------------------------------------
             baos.write(SYSEX_SECT);
-            baos.write(gsysconfig.getBanks().size());
+            baos.write(SYSEX_CMND_VTRG);
+            baos.write(gsysconfig.banks());
 
-            // Vtrg
             for(Bank bank : gsysconfig.getBanks()) {
-                byte[] arr = formatVtrg(bank);
-                baos.write(arr,0, arr.length);
+                byte[] arr = formatTrigger(bank, Trigger.Vtrg);
+                baos.write(arr,0,arr.length);
+            }
+
+            // Strg ------------------------------------------------------------
+            baos.write(SYSEX_SECT);
+            baos.write(SYSEX_CMND_STRG);
+            baos.write(gsysconfig.banks());
+
+            for(Bank bank : gsysconfig.getBanks()) {
+                byte[] arr = formatTrigger(bank, Trigger.Strg);
+                baos.write(arr,0,arr.length);
             }
 
             baos.write(SYSEX_END);
@@ -75,16 +95,12 @@ public final class Format {
      */
     private static byte[] formatBank(Bank bank) {
 
-        byte[] arr = new byte[bank.size() * 2];
-
-        int base = bank.getNumber() * PRESETS;
-        while(base - BLOCK >= BLOCK) {
-            base -= BLOCK;
-        }
+        byte[] arr = new byte[bank.presets() * 2];
+        int base = getBase(bank);
 
         int i = 0;
         for(Map.Entry<Integer,Byte> entry : bank.getPresets().entrySet()) {
-            arr[i++] = (byte)(entry.getKey() + base - 1);
+            arr[i++] = (byte)(entry.getKey() + base);
             arr[i++] = entry.getValue();
         }
 
@@ -93,25 +109,29 @@ public final class Format {
     }   // formatBank()
 
     /**
-     * Returns an array representing a preset bank vtrg, consisting of
-     * a base preset identifier (first in the bank) and vtrg mask.
+     * Returns an array representing a preset bank trigger, consisting of
+     * a bank base value and trigger mask.
      * @param bank the bank.
      * @return the array.
      */
-    private static byte[] formatVtrg(Bank bank) {
+    private static byte[] formatTrigger(Bank bank, Trigger trg){
+        return new byte[] {getBase(bank), bank.getTrigger(trg)};
+    }
 
-        byte[] arr = new byte[2];
+    /**
+     * Returns the bank base value.
+     * @param bank the bank.
+     * @return the base.
+     */
+    private static byte getBase(Bank bank) {
 
         int base = bank.getNumber() * PRESETS;
         while(base - BLOCK >= BLOCK) {
             base -= BLOCK;
         }
 
-        arr[0] = (byte)(base - 1);
-        arr[1] = bank.getVtrg();
+        return (byte)(base - 1);
 
-        return arr;
+    }   // getBase()
 
-    }   // formatVtrg()
-
-}   // class Convert
+}   // class Format

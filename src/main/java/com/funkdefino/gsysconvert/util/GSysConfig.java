@@ -21,9 +21,9 @@ public final class GSysConfig {
 
     //** ------------------------------------------------------------------ Data
 
-    private List<Bank> banks = new ArrayList<Bank>();
-    private String sysexId;
-    private File dst;
+    private List<Bank> banks = new ArrayList<Bank>(); // Preset banks
+    private String sysexId;                           // SYSEX identifier
+    private File dst;                                 // Destination file
 
     //** ---------------------------------------------------------- Construction
 
@@ -58,14 +58,22 @@ public final class GSysConfig {
     }   // getSysexId()
 
     /**
-     * Returns the total number of bank presets.
+     * Returns the total number of configured banks.
+     * @return the total.
+     */
+    public int banks() {
+        return banks.size();
+    }
+
+    /**
+     * Returns the total number of configured bank presets.
      * @return the total.
      */
     public int presets() {
 
         int size = 0;
         for(Bank bank : banks) {
-            size += bank.size();
+            size += bank.presets();
         }
 
         return size;

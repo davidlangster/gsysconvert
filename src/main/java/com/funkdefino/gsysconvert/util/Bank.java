@@ -1,7 +1,7 @@
 package com.funkdefino.gsysconvert.util;
+
 import com.funkdefino.common.util.UtilException;
 import com.funkdefino.common.util.xml.*;
-
 import java.math.BigInteger;
 import java.util.*;
 
@@ -18,13 +18,15 @@ public final class Bank {
     private final static String AttrbName   = "name";
     private final static String AttrbNumber = "number";
     private final static String AttrbVtrg   = "vtrg";
+    private final static String AttrbStrg   = "strg";
 
     //** ------------------------------------------------------------------ Data
 
-    private Map<Integer,Byte> presets = new HashMap<Integer, Byte>();
-    private String name;
-    private int number;
-    private byte vtrg;
+    private Map<Integer,Byte> presets  = new HashMap<Integer,Byte>();
+    private Map<Trigger,Byte> triggers = new EnumMap<Trigger,Byte>(Trigger.class);
+
+    private String name;  // Bank name
+    private int  number;  // Bank number
 
     //** ---------------------------------------------------------- Construction
 
@@ -39,11 +41,13 @@ public final class Bank {
 
     //** ------------------------------------------------------------ Operations
 
-    public int getNumber () {return number;}
-    public String getName() {return name;  }
+    public String getName  ()  {return name;  }
+    public int    getNumber()  {return number;}
+    public int    presets  ()  {return presets.size();}
+    public int    triggers ()  {return triggers.size();}
+
     public Map<Integer,Byte> getPresets() {return presets;}
-    public int  size() {return presets.size();}
-    public byte getVtrg() {return vtrg;}
+    public byte              getTrigger(Trigger trg) {return triggers.get(trg);}
 
     /**
      * Returns a textual description.
@@ -55,11 +59,13 @@ public final class Bank {
         StringBuilder sb = new StringBuilder();
         sb.append(number).append(';');
         sb.append(name).append(";[");
+
         for(Map.Entry<Integer,Byte> entry : presets.entrySet())
-            sb.append(String.format("%02d,%02d;", entry.getKey(),entry.getValue()));
+           sb.append(String.format("%02x,%02x;", entry.getKey(), entry.getValue()));
         sb.append("][");
-        sb.append(String.format("%05d", new BigInteger(Integer.toBinaryString(vtrg))));
-        sb.append(']');
+
+        sb.append(String.format("%05d", fmt(triggers.get(Trigger.Vtrg)))).append("][");
+        sb.append(String.format("%05d", fmt(triggers.get(Trigger.Strg)))).append(']');
 
         return sb.toString();
 
@@ -86,8 +92,20 @@ public final class Bank {
         }
 
         String vt = XmlValidate.getAttribute(config, AttrbVtrg, "0");
-        vtrg = (byte)Integer.parseInt(vt, 2);
+        String st = XmlValidate.getAttribute(config, AttrbStrg, "0");
+
+        triggers.put(Trigger.Vtrg, Byte.parseByte(vt, 2));
+        triggers.put(Trigger.Strg, Byte.parseByte(st, 2));
 
     }   // initialise()
+
+    /**
+     * Binary trigger formatting for toString().
+     * @param trg the trigger byte.
+     * @return the formatted trigger.
+     */
+    private static BigInteger fmt(byte trg) {
+        return new BigInteger(Integer.toBinaryString(trg));
+    }
 
 }   // class Bank
