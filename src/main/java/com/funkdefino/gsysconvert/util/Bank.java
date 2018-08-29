@@ -64,8 +64,8 @@ public final class Bank {
            sb.append(String.format("%02x,%02x;", entry.getKey(), entry.getValue()));
         sb.append("][");
 
-        sb.append(String.format("%05d", fmt(triggers.get(Trigger.Vtrg)))).append("][");
-        sb.append(String.format("%05d", fmt(triggers.get(Trigger.Strg)))).append(']');
+        sb.append(String.format("%02x", triggers.get(Trigger.Vtrg))).append("][");
+        sb.append(String.format("%02x", triggers.get(Trigger.Strg))).append(']');
 
         return sb.toString();
 
@@ -94,18 +94,38 @@ public final class Bank {
         String vt = XmlValidate.getAttribute(config, AttrbVtrg, "0");
         String st = XmlValidate.getAttribute(config, AttrbStrg, "0");
 
-        triggers.put(Trigger.Vtrg, Byte.parseByte(vt, 2));
-        triggers.put(Trigger.Strg, Byte.parseByte(st, 2));
+        triggers.put(Trigger.Vtrg, convert(vt));
+        triggers.put(Trigger.Strg, convert(st));
 
     }   // initialise()
 
     /**
-     * Binary trigger formatting for toString().
-     * @param trg the trigger byte.
-     * @return the formatted trigger.
+     * Trigger offset conversion - 5-bit wide bitmask to byte, with bit 5 as LSB
+     * @param vt the string bitmask (XXXXX).
+     * @return the byte offset, 0 - 5.
      */
-    private static BigInteger fmt(byte trg) {
-        return new BigInteger(Integer.toBinaryString(trg));
+    private static byte convert(String vt) {
+
+        byte vtrg = Byte.parseByte(vt, 2);
+
+        if(bitSet(vtrg,0)) return 5;
+        if(bitSet(vtrg,1)) return 4;
+        if(bitSet(vtrg,2)) return 3;
+        if(bitSet(vtrg,3)) return 2;
+        if(bitSet(vtrg,4)) return 1;
+
+        return 0;
+
+    }   // convert()
+
+    /**
+     * Bit test.
+     * @param b the byte
+     * @param n the bit (0 - 7).
+     * @return true if set; otherwise false.
+     */
+    private static boolean bitSet(byte b, int n) {
+        return (((b >> n) & 0x01) == 0x01);
     }
 
 }   // class Bank
