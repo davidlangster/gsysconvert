@@ -14,7 +14,7 @@ public final class Format {
     //** ------------------------------------------------------------- Constants
 
     private final static byte SYSEX_START = (byte)0xF0;
-    private final static byte SYSEX_SECT  = (byte)0xF6;
+    private final static byte SYSEX_SECT  = (byte)0x7F;
     private final static byte SYSEX_END   = (byte)0xF7;
     private final static int  PRESETS     = 5;
     private final static int  BLOCK       = (PRESETS * 10);
@@ -130,7 +130,7 @@ public final class Format {
             base -= BLOCK;
         }
 
-        return (byte)(base - 1);
+        return (byte)base;
 
     }   // getBase()
 

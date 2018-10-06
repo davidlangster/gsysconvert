@@ -7,6 +7,7 @@
             <Preset number="3">00000000</Preset>
         </Bank>
         <Bank number="33" name="Space" strg="10000">
+            <Preset number="1">00000001</Preset>
             <Preset number="4">00000001</Preset>
         </Bank>
     </Presets>
