@@ -3,7 +3,9 @@ package com.funkdefino.gsysconvert;
 import com.funkdefino.common.io.IOUtil;
 import com.funkdefino.common.unittest.CTestCase;
 import com.funkdefino.common.util.xml.XmlDocument;
+import com.funkdefino.gsysconvert.util.convert.*;
 import com.funkdefino.gsysconvert.util.*;
+
 import junit.framework.Test;
 
 /**
@@ -63,6 +65,8 @@ public final class GSysUnitTest extends CTestCase {
 
     }
 
+    //** ----------------------------------------------------------------- Tests
+
     public void test04() throws Exception {
 
         assertEquals(0, convert("00000"));
@@ -73,6 +77,41 @@ public final class GSysUnitTest extends CTestCase {
         assertEquals(1, convert("10000"));
 
     }
+
+    public void test05() throws Exception {
+
+        assertEquals(0x00, VTrgConvert.convert("00000"));
+        assertEquals(0x05, VTrgConvert.convert("00001"));
+        assertEquals(0x04, VTrgConvert.convert("00010"));
+        assertEquals(0x03, VTrgConvert.convert("00100"));
+        assertEquals(0x02, VTrgConvert.convert("01000"));
+        assertEquals(0x01, VTrgConvert.convert("10000"));
+
+        assertEquals(0x00, STrgConvert.convert("00000.00000"));
+        assertEquals(0x05, STrgConvert.convert("00000.00001"));
+        assertEquals(0x04, STrgConvert.convert("00000.00010"));
+        assertEquals(0x03, STrgConvert.convert("00000.00100"));
+        assertEquals(0x02, STrgConvert.convert("00000.01000"));
+        assertEquals(0x01, STrgConvert.convert("00000.10000"));
+        assertEquals(0x50, STrgConvert.convert("00001.00000"));
+        assertEquals(0x40, STrgConvert.convert("00010.00000"));
+        assertEquals(0x30, STrgConvert.convert("00100.00000"));
+        assertEquals(0x20, STrgConvert.convert("01000.00000"));
+        assertEquals(0x10, STrgConvert.convert("10000.00000"));
+        assertEquals(0x55, STrgConvert.convert("00001.00001"));
+        assertEquals(0x44, STrgConvert.convert("00010.00010"));
+        assertEquals(0x33, STrgConvert.convert("00100.00100"));
+        assertEquals(0x22, STrgConvert.convert("01000.01000"));
+        assertEquals(0x11, STrgConvert.convert("10000.10000"));
+
+        assertEquals(0x00, LTrgConvert.convert("00000"));
+        assertEquals(0x05, LTrgConvert.convert("00001"));
+        assertEquals(0x09, LTrgConvert.convert("00011"));
+        assertEquals(0x0C, LTrgConvert.convert("00111"));
+        assertEquals(0x0E, LTrgConvert.convert("01111"));
+        assertEquals(0x0F, LTrgConvert.convert("11111"));
+
+    }   // test05()
 
     //** -------------------------------------------------------- Implementation
 

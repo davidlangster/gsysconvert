@@ -24,6 +24,7 @@ public final class Format {
     private final static byte SYSEX_CMND_STORE = 0x02;
     private final static byte SYSEX_CMND_VTRG  = 0x03;
     private final static byte SYSEX_CMND_STRG  = 0x04;
+    private final static byte SYSEX_CMND_LTRG  = 0x05;
 
     //** ------------------------------------------------------------ Operations
 
@@ -73,6 +74,16 @@ public final class Format {
                 baos.write(arr,0,arr.length);
             }
 
+            // Ltrg ------------------------------------------------------------
+            baos.write(SYSEX_SECT);
+            baos.write(SYSEX_CMND_LTRG);
+            baos.write(gsysconfig.banks());
+
+            for(Bank bank : gsysconfig.getBanks()) {
+                byte[] arr = formatTrigger(bank, Trigger.Ltrg);
+                baos.write(arr,0,arr.length);
+            }
+
             baos.write(SYSEX_END);
             sysex = baos.toByteArray();
 
@@ -115,7 +126,7 @@ public final class Format {
      * @return the array.
      */
     private static byte[] formatTrigger(Bank bank, Trigger trg){
-        return new byte[] {getBase(bank), bank.getTrigger(trg)};
+        return new byte[] {(byte)(getBase(bank)+1), bank.getTrigger(trg)};
     }
 
     /**

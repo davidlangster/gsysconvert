@@ -1,8 +1,9 @@
 package com.funkdefino.gsysconvert.util;
 
+import com.funkdefino.gsysconvert.util.convert.*;
 import com.funkdefino.common.util.UtilException;
 import com.funkdefino.common.util.xml.*;
-import java.math.BigInteger;
+
 import java.util.*;
 
 /**
@@ -19,6 +20,7 @@ public final class Bank {
     private final static String AttrbNumber = "number";
     private final static String AttrbVtrg   = "vtrg";
     private final static String AttrbStrg   = "strg";
+    private final static String AttrbLtrg   = "ltrg";
 
     //** ------------------------------------------------------------------ Data
 
@@ -66,6 +68,7 @@ public final class Bank {
 
         sb.append(String.format("%02x", triggers.get(Trigger.Vtrg))).append("][");
         sb.append(String.format("%02x", triggers.get(Trigger.Strg))).append(']');
+        sb.append(String.format("%02x", triggers.get(Trigger.Ltrg))).append(']');
 
         return sb.toString();
 
@@ -91,41 +94,14 @@ public final class Bank {
             presets.put(id, c);
         }
 
-        String vt = XmlValidate.getAttribute(config, AttrbVtrg, "0");
-        String st = XmlValidate.getAttribute(config, AttrbStrg, "0");
+        String vt = XmlValidate.getAttribute(config, AttrbVtrg, "00000");
+        String st = XmlValidate.getAttribute(config, AttrbStrg, "00000.00000");
+        String lt = XmlValidate.getAttribute(config, AttrbLtrg, "00000");
 
-        triggers.put(Trigger.Vtrg, convert(vt));
-        triggers.put(Trigger.Strg, convert(st));
+        triggers.put(Trigger.Vtrg, VTrgConvert.convert(vt));
+        triggers.put(Trigger.Strg, STrgConvert.convert(st));
+        triggers.put(Trigger.Ltrg, LTrgConvert.convert(lt));
 
     }   // initialise()
-
-    /**
-     * Trigger offset conversion - 5-bit wide bitmask to byte, with bit 5 as LSB
-     * @param vt the string bitmask (XXXXX).
-     * @return the byte offset, 0 - 5.
-     */
-    private static byte convert(String vt) {
-
-        byte vtrg = Byte.parseByte(vt, 2);
-
-        if(bitSet(vtrg,0)) return 5;
-        if(bitSet(vtrg,1)) return 4;
-        if(bitSet(vtrg,2)) return 3;
-        if(bitSet(vtrg,3)) return 2;
-        if(bitSet(vtrg,4)) return 1;
-
-        return 0;
-
-    }   // convert()
-
-    /**
-     * Bit test.
-     * @param b the byte
-     * @param n the bit (0 - 7).
-     * @return true if set; otherwise false.
-     */
-    private static boolean bitSet(byte b, int n) {
-        return (((b >> n) & 0x01) == 0x01);
-    }
 
 }   // class Bank

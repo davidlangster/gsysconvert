@@ -10,7 +10,8 @@ package com.funkdefino.gsysconvert.util;
 public enum Trigger {
 
     Vtrg("vtrg"),
-    Strg("strg");
+    Strg("strg"),
+    Ltrg("ltrg");
 
     Trigger(String id) {this.id = id;}
     private String id;
