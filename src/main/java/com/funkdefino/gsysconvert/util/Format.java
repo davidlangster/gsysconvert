@@ -111,7 +111,7 @@ public final class Format {
 
         int i = 0;
         for(Map.Entry<Integer,Byte> entry : bank.getPresets().entrySet()) {
-            arr[i++] = (byte)(entry.getKey() + base);
+            arr[i++] = (byte)(entry.getKey() + base - 1); // 1-based preset key (1 to 5)
             arr[i++] = entry.getValue();
         }
 
@@ -126,7 +126,7 @@ public final class Format {
      * @return the array.
      */
     private static byte[] formatTrigger(Bank bank, Trigger trg){
-        return new byte[] {(byte)(getBase(bank)+1), bank.getTrigger(trg)};
+        return new byte[] {getBase(bank), bank.getTrigger(trg)};
     }
 
     /**

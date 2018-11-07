@@ -63,12 +63,13 @@ public final class Bank {
         sb.append(name).append(";[");
 
         for(Map.Entry<Integer,Byte> entry : presets.entrySet())
-           sb.append(String.format("%02x,%02x;", entry.getKey(), entry.getValue()));
+           sb.append(String.format("%02x:%02x,", entry.getKey(), entry.getValue()));
+        sb.deleteCharAt(sb.length()-1);
         sb.append("][");
 
-        sb.append(String.format("%02x", triggers.get(Trigger.Vtrg))).append("][");
-        sb.append(String.format("%02x", triggers.get(Trigger.Strg))).append(']');
-        sb.append(String.format("%02x", triggers.get(Trigger.Ltrg))).append(']');
+        sb.append(String.format("V:%02x", triggers.get(Trigger.Vtrg))).append("][");
+        sb.append(String.format("S:%02x", triggers.get(Trigger.Strg))).append("][");
+        sb.append(String.format("L:%02x", triggers.get(Trigger.Ltrg))).append(']');
 
         return sb.toString();
 
