@@ -91,8 +91,8 @@ public final class Bank {
         while(ii.hasNext()) {
             XmlElement preset = ii.next();
             int id = Integer.parseInt(XmlValidate.getAttribute(preset, AttrbNumber));
-            byte c = Byte.parseByte(preset.getContent(), 2);
-            presets.put(id, c);
+            byte b = validate(Byte.parseByte(preset.getContent(), 2));
+            presets.put(id, b);
         }
 
         String vt = XmlValidate.getAttribute(config, AttrbVtrg, "00000");
@@ -104,5 +104,31 @@ public final class Bank {
         triggers.put(Trigger.Ltrg, LTrgConvert.convert(lt));
 
     }   // initialise()
+
+    /**
+     * Byte validation. Filters 'return without send' - e.g. nnnn.nn10B
+     * @param b the byte.
+     * @return the byte.
+     * @throws UtilException on error.
+     */
+    private static byte validate(byte b) throws UtilException {
+
+        if(bitSet(b,1) && !(bitSet(b,0))) {
+            throw new UtilException(String.format("Invalid preset value : 0x%02x", b));
+        }
+
+        return b;
+
+    }   // validate()
+
+    /**
+     * Bit-set check.
+     * @param b the byte
+     * @param n the bit.
+     * @return true if set; otherwise false.
+     */
+    private static boolean bitSet(byte b, int n) {
+        return ((b >> n) & 0x01) == 0x01;
+    }
 
 }   // class Bank

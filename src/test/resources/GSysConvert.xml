@@ -3,7 +3,7 @@
     <Presets>
         <Bank number="32" name="Changes" vtrg="00001" ltrg="00101">
             <Preset number="1">00000011</Preset>
-            <Preset number="2">01000001</Preset>
+            <Preset number="2">01000011</Preset>
             <Preset number="3">00000000</Preset>
         </Bank>
         <Bank number="33" name="Space" strg="00001.10000">
