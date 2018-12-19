@@ -104,13 +104,6 @@ public final class GSysUnitTest extends CTestCase {
         assertEquals(0x22, STrgConvert.convert("01000.01000"));
         assertEquals(0x11, STrgConvert.convert("10000.10000"));
 
-        assertEquals(0x00, LTrgConvert.convert("00000"));
-        assertEquals(0x05, LTrgConvert.convert("00001"));
-        assertEquals(0x09, LTrgConvert.convert("00011"));
-        assertEquals(0x0C, LTrgConvert.convert("00111"));
-        assertEquals(0x0E, LTrgConvert.convert("01111"));
-        assertEquals(0x0F, LTrgConvert.convert("11111"));
-
     }   // test05()
 
     //** -------------------------------------------------------- Implementation

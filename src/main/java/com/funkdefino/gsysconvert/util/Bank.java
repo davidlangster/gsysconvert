@@ -20,7 +20,6 @@ public final class Bank {
     private final static String AttrbNumber = "number";
     private final static String AttrbVtrg   = "vtrg";
     private final static String AttrbStrg   = "strg";
-    private final static String AttrbLtrg   = "ltrg";
 
     //** ------------------------------------------------------------------ Data
 
@@ -68,8 +67,7 @@ public final class Bank {
         sb.append("][");
 
         sb.append(String.format("V:%02x", triggers.get(Trigger.Vtrg))).append("][");
-        sb.append(String.format("S:%02x", triggers.get(Trigger.Strg))).append("][");
-        sb.append(String.format("L:%02x", triggers.get(Trigger.Ltrg))).append(']');
+        sb.append(String.format("S:%02x", triggers.get(Trigger.Strg))).append("]");
 
         return sb.toString();
 
@@ -97,11 +95,9 @@ public final class Bank {
 
         String vt = XmlValidate.getAttribute(config, AttrbVtrg, "00000");
         String st = XmlValidate.getAttribute(config, AttrbStrg, "00000.00000");
-        String lt = XmlValidate.getAttribute(config, AttrbLtrg, "00000");
 
         triggers.put(Trigger.Vtrg, VTrgConvert.convert(vt));
         triggers.put(Trigger.Strg, STrgConvert.convert(st));
-        triggers.put(Trigger.Ltrg, LTrgConvert.convert(lt));
 
     }   // initialise()
 
