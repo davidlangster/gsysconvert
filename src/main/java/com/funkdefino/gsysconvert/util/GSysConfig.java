@@ -16,14 +16,16 @@ public final class GSysConfig {
     //** ------------------------------------------------------------- Constants
 
     private final static String ElmntPresets = "Presets";
-    private final static String ElmntSysex = "Sysex";
-    private final static String AttrbDst = "dst";
+    private final static String ElmntSysex   = "Sysex";
+    private final static String ElmntSystem  = "System";
+    private final static String AttrbDst     = "dst";
 
     //** ------------------------------------------------------------------ Data
 
     private List<Bank> banks = new ArrayList<Bank>(); // Preset banks
     private String sysexId;                           // SYSEX identifier
     private File dst;                                 // Destination file
+    private SysVar sysVar;                            // System variables
 
     //** ---------------------------------------------------------- Construction
 
@@ -38,8 +40,9 @@ public final class GSysConfig {
 
     //** ------------------------------------------------------------ Operations
 
-    public File getDestination() {return   dst;}
-    public List<Bank> getBanks() {return banks;}
+    public File getDestination() {return    dst;}
+    public List<Bank> getBanks() {return  banks;}
+    public SysVar getSysVar()    {return sysVar;}
 
     /**
      * Returns the SYSEX identifier.
@@ -94,6 +97,9 @@ public final class GSysConfig {
         while(ii.hasNext()) {
             banks.add(new Bank(ii.next()));
         }
+
+        XmlElement system = XmlValidate.getElement(config, ElmntSystem);
+        sysVar = new SysVar(system);
 
         sysexId = XmlValidate.getContent(config, ElmntSysex);
         dst = new File(XmlValidate.getAttribute(config, AttrbDst));

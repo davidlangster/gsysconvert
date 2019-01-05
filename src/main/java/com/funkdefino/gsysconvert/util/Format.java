@@ -19,11 +19,12 @@ public final class Format {
     private final static int  PRESETS     = 5;
     private final static int  BLOCK       = (PRESETS * 10);
 
-    private final static byte SYSEX_CMND_USB   = 0x00;
-    private final static byte SYSEX_CMND_PRST  = 0x01;
-    private final static byte SYSEX_CMND_STORE = 0x02;
-    private final static byte SYSEX_CMND_VTRG  = 0x03;
-    private final static byte SYSEX_CMND_STRG  = 0x04;
+    private final static byte SYSEX_CMND_USB    = 0x00;
+    private final static byte SYSEX_CMND_PRST   = 0x01;
+    private final static byte SYSEX_CMND_STORE  = 0x02;
+    private final static byte SYSEX_CMND_VTRG   = 0x03;
+    private final static byte SYSEX_CMND_STRG   = 0x04;
+    private final static byte SYSEX_CMND_SYSVAR = 0x05;
 
     //** ------------------------------------------------------------ Operations
 
@@ -72,6 +73,13 @@ public final class Format {
                 byte[] arr = formatTrigger(bank, Trigger.Strg);
                 baos.write(arr,0,arr.length);
             }
+
+            // System ----------------------------------------------------------
+            baos.write(SYSEX_SECT);
+            baos.write(SYSEX_CMND_SYSVAR);
+            baos.write(gsysconfig.getSysVar().size());
+            byte[] arr = gsysconfig.getSysVar().format();
+            baos.write(arr,0,arr.length);
 
             baos.write(SYSEX_END);
             sysex = baos.toByteArray();

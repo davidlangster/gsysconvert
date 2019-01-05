@@ -4,6 +4,10 @@
         <Suite id="test#1" class="com.funkdefino.gsysconvert.GSysUnitTest">
             <method>test01</method>
             <method>test02</method>
+            <method>test03</method>
+            <method>test04</method>
+            <method>test05</method>
+            <method>test06</method>
         </Suite>
     </Suites>
 </UnitTest>

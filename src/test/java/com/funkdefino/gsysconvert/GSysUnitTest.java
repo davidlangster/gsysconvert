@@ -49,6 +49,7 @@ public final class GSysUnitTest extends CTestCase {
         for(Bank bank : gsysconfig.getBanks()) {
             System.out.println(bank);
         }
+        System.out.println(gsysconfig.getSysVar().toString());
     }
 
     public void test03() throws Exception {
@@ -106,6 +107,15 @@ public final class GSysUnitTest extends CTestCase {
 
     }   // test05()
 
+    public void test06() {
+
+        int[] values = {1,10,100,300,400,0x0F,0x7F,0xF0,0xFF,0xFFF,0xFFFF};
+        for(int value : values) {
+            assertEquals(decode(encode(value)), value);
+        }
+
+    }
+
     //** -------------------------------------------------------- Implementation
 
     /**
@@ -135,6 +145,33 @@ public final class GSysUnitTest extends CTestCase {
      */
     private static boolean bitSet(byte b, int n) {
         return (((b >> n) & 0x01) == 0x01);
+    }
+
+    //** -------------------------------------------------------- Implementation
+
+    /**
+     * Encodes an integer value as a 3-byte array.
+     * @param val the value.
+     * @return the array.
+     */
+    private static byte[] encode(int val) {
+
+        byte[] arr = new byte[3];
+        arr[0] = (byte)((val >> 14) & 0x0003);
+        arr[1] = (byte)((val >> 7 ) & 0x007F);
+        arr[2] = (byte)(val & 0x007F);
+
+        return arr;
+
+    }   // encode()
+
+    /**
+     * Decodes an encoded 3-byte array into an integer value.
+     * @param arr the array.
+     * @return the value.
+     */
+    private static int decode(byte[] arr) {
+        return ((int)arr[0] << 14) | ((int)arr[1] << 7 ) | arr[2];
     }
 
 }   // class GSysUnitTest
