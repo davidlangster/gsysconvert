@@ -46,12 +46,14 @@ public final class Server {
 
         System.out.println("**********************************");
         System.out.println("GSysSelect Conversion Utility ****");
-        System.out.println("David Lang \u00A9 2018             ****");
+        System.out.println("David Lang \u00A9 2019             ****");
         System.out.println("**********************************");
 
         for(Bank bank : gsysconfig.getBanks()) {
             System.out.println(bank);
         }
+
+        System.out.println(gsysconfig.getSysVar().toString());
 
         FileOutputStream fos = new FileOutputStream(gsysconfig.getDestination());
         fos.write(Format.execute(gsysconfig));
