@@ -14,11 +14,16 @@ public final class SysVar {
 
     //** ------------------------------------------------------------- Constants
 
-    private final static String ElmntVolume  = "Volume";
-    private final static String ElmntSwitch  = "Switch";
-    private final static String AttrbWidth   = "pulseWidth";
+    private final static String ElmntVolume      = "Volume";
+    private final static String ElmntSwitch      = "Switch";
+    private final static String ElmntDisplay     = "Display";
+    private final static String AttrbPulseWidth  = "pulseWidth";
+    private final static String AttrbRotation    = "rotation";
+    private final static String AttrbBrightness  = "brightness";
 
-    private final static byte ID_PULSE_WIDTH = 0x00;
+    private final static byte ID_PULSE_WIDTH     = 0x00;
+    private final static byte ID_DSP_ROTATION    = 0x01;
+    private final static byte ID_DSP_BRIGHTNESS  = 0x02;
 
     //** ------------------------------------------------------------------ Data
 
@@ -71,11 +76,9 @@ public final class SysVar {
         sb.append("SysVar;[");
 
         for(int i = 0; i < sys.size()*4; i+=4) {
-            sb.append(String.format("%02x:%02x,%02x,%02x ,", arr[i], arr[i+1], arr[i+2], arr[i+3]));
+            sb.append(String.format("%02x:%02x,%02x,%02x;", arr[i], arr[i+1], arr[i+2], arr[i+3]));
         }
 
-        sb.deleteCharAt(sb.length()-1);
-        sb.deleteCharAt(sb.length()-1);
         sb.append("]");
 
         return sb.toString();
@@ -91,12 +94,17 @@ public final class SysVar {
      */
     private void initialise(XmlElement config) throws UtilException {
 
-        XmlElement volume = XmlValidate.getElement(config, ElmntVolume);
-        XmlElement swtch  = XmlValidate.getElement(volume, ElmntSwitch);
+        XmlElement volume  = XmlValidate.getElement(config, ElmntVolume );
+        XmlElement display = XmlValidate.getElement(config, ElmntDisplay);
+        XmlElement swtch   = XmlValidate.getElement(volume, ElmntSwitch );
 
-        String width = XmlValidate.getAttribute(swtch, AttrbWidth);
+        String pulseWidth  = XmlValidate.getAttribute(swtch,   AttrbPulseWidth );
+        String rotation    = XmlValidate.getAttribute(display, AttrbRotation   );
+        String brightness  = XmlValidate.getAttribute(display, AttrbBrightness );
 
-        sys.put(ID_PULSE_WIDTH, Integer.parseInt(width));
+        sys.put(ID_PULSE_WIDTH,   Integer.parseInt(pulseWidth));
+        sys.put(ID_DSP_ROTATION,  Integer.parseInt(rotation)  );
+        sys.put(ID_DSP_BRIGHTNESS,Integer.parseInt(brightness));
 
     }   // initialise()
 
