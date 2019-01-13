@@ -16,7 +16,8 @@
     <System>
         <Display rotation="3" brightness="4"/>
         <Volume>
-            <Switch pulseWidth="400"/>
+            <!-- Edge setting - rising (test), falling (production) -->
+            <Switch edge="rising" pulseWidth="400"/>
         </Volume>
     </System>
 </GSysSelect>

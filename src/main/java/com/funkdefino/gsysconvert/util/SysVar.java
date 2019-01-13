@@ -17,13 +17,17 @@ public final class SysVar {
     private final static String ElmntVolume      = "Volume";
     private final static String ElmntSwitch      = "Switch";
     private final static String ElmntDisplay     = "Display";
+    private final static String AttrbTriggerEdge = "edge";
     private final static String AttrbPulseWidth  = "pulseWidth";
     private final static String AttrbRotation    = "rotation";
     private final static String AttrbBrightness  = "brightness";
 
-    private final static byte ID_PULSE_WIDTH     = 0x00;
-    private final static byte ID_DSP_ROTATION    = 0x01;
-    private final static byte ID_DSP_BRIGHTNESS  = 0x02;
+    private final static String InvalidEdge      = "Invalid edge '%s'";
+
+    private final static byte ID_SW_TRIGGER_EDGE = 0x00;
+    private final static byte ID_SW_PULSE_WIDTH  = 0x01;
+    private final static byte ID_DSP_ROTATION    = 0x02;
+    private final static byte ID_DSP_BRIGHTNESS  = 0x03;
 
     //** ------------------------------------------------------------------ Data
 
@@ -98,13 +102,22 @@ public final class SysVar {
         XmlElement display = XmlValidate.getElement(config, ElmntDisplay);
         XmlElement swtch   = XmlValidate.getElement(volume, ElmntSwitch );
 
+        String triggerEdge = XmlValidate.getAttribute(swtch,   AttrbTriggerEdge);
         String pulseWidth  = XmlValidate.getAttribute(swtch,   AttrbPulseWidth );
         String rotation    = XmlValidate.getAttribute(display, AttrbRotation   );
         String brightness  = XmlValidate.getAttribute(display, AttrbBrightness );
 
-        sys.put(ID_PULSE_WIDTH,   Integer.parseInt(pulseWidth));
-        sys.put(ID_DSP_ROTATION,  Integer.parseInt(rotation)  );
-        sys.put(ID_DSP_BRIGHTNESS,Integer.parseInt(brightness));
+        int edge;
+        if(triggerEdge.equalsIgnoreCase("falling")) edge = 2;
+        else if(triggerEdge.equalsIgnoreCase("rising")) edge = 3;
+        else {
+            throw new UtilException(String.format(InvalidEdge, triggerEdge));
+        }
+
+        sys.put(ID_SW_TRIGGER_EDGE,edge);
+        sys.put(ID_SW_PULSE_WIDTH, Integer.parseInt(pulseWidth));
+        sys.put(ID_DSP_ROTATION,   Integer.parseInt(rotation)  );
+        sys.put(ID_DSP_BRIGHTNESS, Integer.parseInt(brightness));
 
     }   // initialise()
 
