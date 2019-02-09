@@ -116,6 +116,15 @@ public final class GSysUnitTest extends CTestCase {
 
     }
 
+    public void test07() {
+        assertEquals(0b10000000, encodeEntry(8,0,0));
+        assertEquals(0b10000100, encodeEntry(8,1,0));
+        assertEquals(0b10001000, encodeEntry(8,2,0));
+        assertEquals(0b10001100, encodeEntry(8,3,0));
+        assertEquals(0b10000001, encodeEntry(8,0,1));
+        assertEquals(0b10000010, encodeEntry(8,0,2));
+    }
+
     //** -------------------------------------------------------- Implementation
 
     /**
@@ -172,6 +181,17 @@ public final class GSysUnitTest extends CTestCase {
      */
     private static int decode(byte[] arr) {
         return ((int)arr[0] << 14) | ((int)arr[1] << 7 ) | arr[2];
+    }
+
+    /**
+     * Encodes an entry.
+     * @param section section.
+     * @param state state .
+     * @param sync synchronization.
+     * @return the entry.
+     */
+    private static int encodeEntry(int section, int state, int sync) {
+        return (((byte)section << 4) | (((byte)state & 0x03) << 2) | ((byte)sync & 0x03));
     }
 
 }   // class GSysUnitTest
