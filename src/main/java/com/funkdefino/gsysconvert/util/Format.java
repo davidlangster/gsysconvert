@@ -65,7 +65,7 @@ public final class Format {
                 osnames.write(encode(bank));
             byte[] names = osnames.toByteArray();
 
-            baos.write(names.length+1);
+            baos.write(encode(names.length+1));
             baos.write(gsysconfig.banks());
             baos.write(names);
 
@@ -172,6 +172,23 @@ public final class Format {
         for(byte b : name.getBytes()) {
             arr[i++] = b;
         }
+
+        return arr;
+
+    }   // encode()
+
+    /**
+     * Encodes a value as a 3-byte array.
+     * @param val the value.
+     * @return the array.
+     */
+    private static byte[] encode(int val) {
+
+        int i = 0;
+        byte[] arr = new byte[3];
+        arr[i++] = (byte)((val >> 14) & 0x0003);
+        arr[i++] = (byte)((val >> 7 ) & 0x007F);
+        arr[i++] = (byte)(val & 0x007F);
 
         return arr;
 
