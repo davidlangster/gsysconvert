@@ -10,13 +10,18 @@
         </Bank>
         <Bank number="33" name="Space" strg="00001.10000">
             <Preset number="1">00000001</Preset>
+            <Preset number="2">00000001</Preset>
+            <Preset number="3">00100001</Preset>
             <Preset number="4">00100011</Preset>
+            <Preset number="5">00100011</Preset>
         </Bank>
     </Presets>
     <System>
         <Display rotation="3" brightness="4"/>
         <Volume>
-            <!-- Edge setting - rising (test), falling (production) -->
+            <!-- Edge setting -
+                 rising (test - 00:00,00,03),
+                 falling (production - 00:00,00,02) -->
             <Switch edge="rising" pulseWidth="400"/>
         </Volume>
     </System>

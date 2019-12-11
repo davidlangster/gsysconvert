@@ -44,7 +44,7 @@ public final class GSysUnitTest extends CTestCase {
     }
 
     public void test02() throws Exception {
-        XmlDocument doc = XmlDocument.fromResource(getClass(), "GSysConvert.xml");
+        XmlDocument doc = XmlDocument.fromResource(getClass(), "GSysConvert.02.xml");
         GSysConfig gsysconfig = new GSysConfig(doc.getRootElement());
         for(Bank bank : gsysconfig.getBanks()) {
             System.out.println(bank);
@@ -54,15 +54,15 @@ public final class GSysUnitTest extends CTestCase {
 
     public void test03() throws Exception {
 
-        XmlDocument doc = XmlDocument.fromResource(getClass(), "GSysConvert.xml");
+        XmlDocument doc = XmlDocument.fromResource(getClass(), "GSysConvert.02.xml");
         GSysConfig gsysconfig = new GSysConfig(doc.getRootElement());
         byte arr[] = Format.execute(gsysconfig);
         StringBuffer sb = new StringBuffer();
         for(byte b : arr) {
             sb.append(String.format("%02X ", b));
         }
-
-        System.out.println(sb.toString());
+        String s = String.format("%s(%d)", sb.toString(), arr.length);
+        System.out.println(s);
 
     }
 
