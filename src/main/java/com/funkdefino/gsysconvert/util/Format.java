@@ -20,13 +20,13 @@ public final class Format {
     private final static int  PRESETS     = 5;
     private final static int  BLOCK       = (PRESETS * 10);
 
-    private final static byte SYSEX_CMND_USB       = 0x00;
+    private final static byte SYSEX_CMND_STORE     = 0x00;
     private final static byte SYSEX_CMND_PRST      = 0x01;
-    private final static byte SYSEX_CMND_STORE     = 0x02;
+    private final static byte SYSEX_CMND_PRSTNAMES = 0x02;
     private final static byte SYSEX_CMND_VTRG      = 0x03;
     private final static byte SYSEX_CMND_STRG      = 0x04;
     private final static byte SYSEX_CMND_SYSVAR    = 0x05;
-    private final static byte SYSEX_CMND_PRSTNAMES = 0x06;
+    private final static byte SYSEX_CMND_USB       = 0x06;
 
     //** ------------------------------------------------------------ Operations
 
@@ -50,7 +50,7 @@ public final class Format {
             // Presets ---------------------------------------------------------
             baos.write(SYSEX_SECT);
             baos.write(SYSEX_CMND_PRST);
-            baos.write(gsysconfig.presets());
+            baos.write(encode(gsysconfig.presets()));
 
             for(Bank bank : gsysconfig.getBanks()) {
                 byte[] arr = formatBank(bank);
@@ -62,7 +62,7 @@ public final class Format {
             baos.write(SYSEX_CMND_PRSTNAMES);
 
             for(Bank bank : gsysconfig.getBanks())
-                osnames.write(encode(bank));
+                osnames.write(encodeBank(bank));
             byte[] names = osnames.toByteArray();
 
             baos.write(encode(names.length+1));
@@ -72,7 +72,7 @@ public final class Format {
             // Vtrg ------------------------------------------------------------
             baos.write(SYSEX_SECT);
             baos.write(SYSEX_CMND_VTRG);
-            baos.write(gsysconfig.banks());
+            baos.write(encode(gsysconfig.banks()));
 
             for(Bank bank : gsysconfig.getBanks()) {
                 byte[] arr = formatTrigger(bank, Trigger.Vtrg);
@@ -82,7 +82,7 @@ public final class Format {
             // Strg ------------------------------------------------------------
             baos.write(SYSEX_SECT);
             baos.write(SYSEX_CMND_STRG);
-            baos.write(gsysconfig.banks());
+            baos.write(encode(gsysconfig.banks()));
 
             for(Bank bank : gsysconfig.getBanks()) {
                 byte[] arr = formatTrigger(bank, Trigger.Strg);
@@ -92,7 +92,7 @@ public final class Format {
             // SysVar ----------------------------------------------------------
             baos.write(SYSEX_SECT);
             baos.write(SYSEX_CMND_SYSVAR);
-            baos.write(gsysconfig.getSysVar().size());
+            baos.write(encode(gsysconfig.getSysVar().size()));
             byte[] arr = gsysconfig.getSysVar().format();
             baos.write(arr,0,arr.length);
 
@@ -162,7 +162,7 @@ public final class Format {
      * @param bank the bank.
      * @return the array.
      */
-    private static byte[] encode(Bank bank) {
+    private static byte[] encodeBank(Bank bank) {
 
         int i = 0;
         String name = bank.getName();
@@ -186,9 +186,9 @@ public final class Format {
 
         int i = 0;
         byte[] arr = new byte[3];
-        arr[i++] = (byte)((val >> 14) & 0x0003);
-        arr[i++] = (byte)((val >> 7 ) & 0x007F);
-        arr[i++] = (byte)(val & 0x007F);
+        arr[i++] = (byte)((val >> 12) & 0x000F);
+        arr[i++] = (byte)((val >> 6 ) & 0x003F);
+        arr[i++] = (byte)(val & 0x003F);
 
         return arr;
 

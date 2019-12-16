@@ -166,9 +166,9 @@ public final class GSysUnitTest extends CTestCase {
     private static byte[] encode(int val) {
 
         byte[] arr = new byte[3];
-        arr[0] = (byte)((val >> 14) & 0x0003);
-        arr[1] = (byte)((val >> 7 ) & 0x007F);
-        arr[2] = (byte)(val & 0x007F);
+        arr[0] = (byte)((val >> 12) & 0x000F);
+        arr[1] = (byte)((val >> 6 ) & 0x003F);
+        arr[2] = (byte)(val & 0x003F);
 
         return arr;
 
@@ -180,7 +180,7 @@ public final class GSysUnitTest extends CTestCase {
      * @return the value.
      */
     private static int decode(byte[] arr) {
-        return ((int)arr[0] << 14) | ((int)arr[1] << 7 ) | arr[2];
+        return ((int)arr[0] << 12) | ((int)arr[1] << 6 ) | arr[2];
     }
 
     /**

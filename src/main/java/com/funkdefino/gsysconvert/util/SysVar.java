@@ -59,9 +59,9 @@ public final class SysVar {
         for(Map.Entry<Byte,Integer> entry : sys.entrySet()) {
             int val  = entry.getValue();
             arr[i++] = entry.getKey();
-            arr[i++] = (byte)((val >> 14) & 0x0003);
-            arr[i++] = (byte)((val >> 7 ) & 0x007F);
-            arr[i++] = (byte)(val & 0x007F);
+            arr[i++] = (byte)((val >> 12) & 0x000F);
+            arr[i++] = (byte)((val >> 6 ) & 0x003F);
+            arr[i++] = (byte)(val & 0x003F);
         }
 
         return arr;
