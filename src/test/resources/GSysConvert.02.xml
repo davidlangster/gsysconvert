@@ -1,40 +1,33 @@
 <GSysSelect dst="GSysSelect.syx">
     <Sysex>4001</Sysex>
     <Presets>
-        <Bank number="31" name="Connections" vtrg="00001">
+        <Bank number="29" name="Test" vtrg="00001">
             <Preset number="1">00000000</Preset>
             <Preset number="2">00000000</Preset>
             <Preset number="3">00000000</Preset>
             <Preset number="4">00000000</Preset>
             <Preset number="5">00000000</Preset>
         </Bank>
-        <Bank number="32" name="Space">
+        <Bank number="30" name="Connections" vtrg="00001">
+            <Preset number="1">00000000</Preset>
+            <Preset number="2">00000000</Preset>
+            <Preset number="3">00000000</Preset>
+            <Preset number="4">00000000</Preset>
+            <Preset number="5">00000000</Preset>
+        </Bank>
+        <Bank number="31" name="SpiralAndCube">
             <Preset number="1">00000000</Preset>
             <Preset number="2">00000011</Preset>
             <Preset number="3">00000000</Preset>
             <Preset number="4">00000000</Preset>
             <Preset number="5">00000000</Preset>
         </Bank>
-        <Bank number="33" name="NonSense" vtrg="00001" strg="01000.10000">
+        <Bank number="32" name="Space" vtrg="00001" strg="01000.10000">
             <Preset number="1">00000011</Preset>
             <Preset number="2">01000011</Preset>
             <Preset number="3">01100011</Preset>
             <Preset number="4">00000011</Preset>
             <Preset number="5">00000000</Preset>
-        </Bank>
-        <Bank number="34" name="NotNow">
-            <Preset number="1">00000011</Preset>
-            <Preset number="2">00000011</Preset>
-            <Preset number="3">00000000</Preset>
-            <Preset number="4">00000011</Preset>
-            <Preset number="5">00000000</Preset>
-        </Bank>
-        <Bank number="35" name="ThereThereWas" vtrg="00001" strg="10000.01000">
-            <Preset number="1">00000000</Preset>
-            <Preset number="2">00000001</Preset>
-            <Preset number="3">00000000</Preset>
-            <Preset number="4">00000011</Preset>
-            <Preset number="5">00100000</Preset>
         </Bank>
     </Presets>
     <System>

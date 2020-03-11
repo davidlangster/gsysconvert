@@ -18,7 +18,7 @@ public final class Format {
     private final static byte SYSEX_SECT  = (byte)0x7F;
     private final static byte SYSEX_END   = (byte)0xF7;
     private final static int  PRESETS     = 5;
-    private final static int  BLOCK       = (PRESETS * 10);
+    private final static int  USERBASE    = (PRESETS * 20);
 
     private final static byte SYSEX_CMND_STORE     = 0x00;
     private final static byte SYSEX_CMND_PRST      = 0x01;
@@ -27,6 +27,18 @@ public final class Format {
     private final static byte SYSEX_CMND_STRG      = 0x04;
     private final static byte SYSEX_CMND_SYSVAR    = 0x05;
     private final static byte SYSEX_CMND_USB       = 0x06;
+
+    // +-----------------+------------------+---------------------+
+    // | Footswitch Bank | MIDI Bank Select | MIDI Program Change |
+    // +-----------------+------------------+---------------------+
+    // | A0 thru B9      |        0         |        1-100        |
+    // | 00 thru 19      |        1         |        1-100        |
+    // | 20 thru 39      |        2         |        1-100        |
+    // +-----------------+------------------+---------------------+
+
+    // GSysSelect uses User Bank 2 (20 thru 39). Bank base calculation
+    // as follows : (Bank * 5) - 100.
+    // e.g. Bank 30 has base value = (30 * 5) - 100 = 50
 
     //** ------------------------------------------------------------ Operations
 
@@ -149,11 +161,7 @@ public final class Format {
     private static byte getBase(Bank bank) {
 
         int base = bank.getNumber() * PRESETS;
-        while(base - BLOCK >= BLOCK) {
-            base -= BLOCK;
-        }
-
-        return (byte)base;
+        return (byte)(base - USERBASE);
 
     }   // getBase()
 
