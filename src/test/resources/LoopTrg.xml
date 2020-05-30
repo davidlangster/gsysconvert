@@ -1,0 +1,13 @@
+<LoopTrg dst="LoopTrg.syx">
+    <Sysex>4001</Sysex>
+    <Presets/>
+    <System>
+        <Display rotation="3" brightness="4"/>
+        <Volume>
+            <!-- Edge setting -
+                 rising (test - 00:00,00,03),
+                 falling (production - 00:00,00,02) -->
+            <Switch edge="rising" pulseWidth="400"/>
+        </Volume>
+    </System>
+</LoopTrg>

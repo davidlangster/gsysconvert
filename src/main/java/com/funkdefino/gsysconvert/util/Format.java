@@ -59,46 +59,48 @@ public final class Format {
             baos.write(SYSEX_START);
             baos.write(sysexId,0,sysexId.length);
 
-            // Presets ---------------------------------------------------------
-            baos.write(SYSEX_SECT);
-            baos.write(SYSEX_CMND_PRST);
-            baos.write(encode(gsysconfig.presets()));
+            if(gsysconfig.getBanks().size() > 0) {
+                // Presets -----------------------------------------------------
+                baos.write(SYSEX_SECT);
+                baos.write(SYSEX_CMND_PRST);
+                baos.write(encode(gsysconfig.presets()));
 
-            for(Bank bank : gsysconfig.getBanks()) {
-                byte[] arr = formatBank(bank);
-                baos.write(arr,0, arr.length);
-            }
+                for(Bank bank : gsysconfig.getBanks()) {
+                    byte[] arr = formatBank(bank);
+                    baos.write(arr,0, arr.length);
+                }
 
-            // Presets names ---------------------------------------------------
-            baos.write(SYSEX_SECT);
-            baos.write(SYSEX_CMND_PRSTNAMES);
+                // Presets names -----------------------------------------------
+                baos.write(SYSEX_SECT);
+                baos.write(SYSEX_CMND_PRSTNAMES);
 
-            for(Bank bank : gsysconfig.getBanks())
-                osnames.write(encodeBank(bank));
-            byte[] names = osnames.toByteArray();
+                for(Bank bank : gsysconfig.getBanks())
+                    osnames.write(encodeBank(bank));
+                byte[] names = osnames.toByteArray();
 
-            baos.write(encode(names.length+1));
-            baos.write(gsysconfig.banks());
-            baos.write(names);
+                baos.write(encode(names.length+1));
+                baos.write(gsysconfig.banks());
+                baos.write(names);
 
-            // Vtrg ------------------------------------------------------------
-            baos.write(SYSEX_SECT);
-            baos.write(SYSEX_CMND_VTRG);
-            baos.write(encode(gsysconfig.banks()));
+                // Vtrg --------------------------------------------------------
+                baos.write(SYSEX_SECT);
+                baos.write(SYSEX_CMND_VTRG);
+                baos.write(encode(gsysconfig.banks()));
 
-            for(Bank bank : gsysconfig.getBanks()) {
-                byte[] arr = formatTrigger(bank, Trigger.Vtrg);
-                baos.write(arr,0,arr.length);
-            }
+                for(Bank bank : gsysconfig.getBanks()) {
+                    byte[] arr = formatTrigger(bank, Trigger.Vtrg);
+                    baos.write(arr,0,arr.length);
+                }
 
-            // Strg ------------------------------------------------------------
-            baos.write(SYSEX_SECT);
-            baos.write(SYSEX_CMND_STRG);
-            baos.write(encode(gsysconfig.banks()));
+                // Strg --------------------------------------------------------
+                baos.write(SYSEX_SECT);
+                baos.write(SYSEX_CMND_STRG);
+                baos.write(encode(gsysconfig.banks()));
 
-            for(Bank bank : gsysconfig.getBanks()) {
-                byte[] arr = formatTrigger(bank, Trigger.Strg);
-                baos.write(arr,0,arr.length);
+                for(Bank bank : gsysconfig.getBanks()) {
+                    byte[] arr = formatTrigger(bank, Trigger.Strg);
+                    baos.write(arr,0,arr.length);
+                }
             }
 
             // SysVar ----------------------------------------------------------

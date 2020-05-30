@@ -54,7 +54,7 @@ public final class GSysUnitTest extends CTestCase {
 
     public void test03() throws Exception {
 
-        XmlDocument doc = XmlDocument.fromResource(getClass(), "GSysConvert.02.xml");
+        XmlDocument doc = XmlDocument.fromResource(getClass(), "LoopTrg.xml");
         GSysConfig gsysconfig = new GSysConfig(doc.getRootElement());
         byte arr[] = Format.execute(gsysconfig);
         StringBuffer sb = new StringBuffer();
