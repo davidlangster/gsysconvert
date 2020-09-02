@@ -9,5 +9,10 @@
             <method>test05</method>
             <method>test06</method>
         </Suite>
+        <Suite id="test#2" class="com.funkdefino.gsysconvert.util.bpm.BpmUtilUnitTest">
+            <method>test01</method>
+            <method>test02</method>
+            <method>test03</method>
+        </Suite>
     </Suites>
 </UnitTest>
