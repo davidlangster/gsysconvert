@@ -13,7 +13,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <version.java>1.8</version.java>
     <version.jdom>2.0.2</version.jdom>
-    <version.junit>4.8.1</version.junit>
+    <version.junit>4.13.1</version.junit>
     <version.spring>3.2.1.RELEASE</version.spring>
     <version.activemq>5.7.0</version.activemq>
     <version.slf4j>1.7.2</version.slf4j>
