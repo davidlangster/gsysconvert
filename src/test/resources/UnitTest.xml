@@ -14,5 +14,11 @@
             <method>test02</method>
             <method>test03</method>
         </Suite>
+        <Suite id="test#3" class="com.funkdefino.gsysconvert.util.bpm.SppUnitTest">
+             <method>test01</method>
+        </Suite>
+        <Suite id="test#4" class="com.funkdefino.gsysconvert.util.bpm.TimeCodeUnitTest">
+             <method>test01</method>
+         </Suite>
     </Suites>
 </UnitTest>

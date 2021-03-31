@@ -54,18 +54,4 @@ public final class BpmUtilUnitTest extends CTestCase {
 
     }
 
-    public void test04()
-    {
-        byte lo = 0x55;
-        byte hi = 0x03;
-        int spp = lo | (hi << 0x07); // Sixteenth notes
-        double bar = spp / 16.0;
-        System.out.printf("SPP : %d, bar = %f\n", spp, bar);
-
-        lo = (byte)(spp & 0x7F);
-        hi = (byte)((spp - lo) >> 0x07);
-        System.out.printf("lo : %02x, hi = %02x", lo, hi);
-
-    }
-
 }   // class BpmUtil
