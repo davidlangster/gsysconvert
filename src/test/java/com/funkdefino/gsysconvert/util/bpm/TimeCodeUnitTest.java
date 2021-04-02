@@ -14,7 +14,7 @@ public final class TimeCodeUnitTest extends CTestCase {
 
     //** ------------------------------------------------------------- Constants
 
-    private static int BPM  = 120;
+    private static int BPM  = 130;
     private static int PPQN = 24;
     private static int FPS  = 30;
 
@@ -78,6 +78,7 @@ public final class TimeCodeUnitTest extends CTestCase {
         toBars(new TimeCode( 0, 0,1,0));  // F:S:M:H
         toBars(new TimeCode(25,36,1,0));  // F:S:M:H
         toBars(new TimeCode(21,16,3,0));  // F:S:M:H
+        toBars(new TimeCode(0,  5,0,1));  // F:S:M:H
 
     }   // test05()
 
