@@ -57,17 +57,17 @@ public final class TimeCodeUnitTest extends CTestCase {
     public void test04() {
 
         //** ----
-        long frames = 30; // 1 second delta
-        double t = TimeCode.toMillis(frames); // frames delta => milliseconds
-        double period = BpmUtil.toPeriod(BPM);
-        double clocks = t / period;
-        System.out.println(clocks);
+        // long frames = 30; // 1 second delta
+        // double t = TimeCode.toMillis(frames); // frames delta => milliseconds
+        // double period = BpmUtil.toPeriod(BPM);
+        // double clocks = t / period;
+        // System.out.println(clocks);
         //** ----
 
         //** ----
-        for(int i = 0; i <= 30; i++) {
-            clocks = toClocks(i);  // Compressed calculation method
-            System.out.println(String.format("%2d;%f", Math.round(clocks), clocks));
+        for(int i = 0; i < 30; i++) {
+            double clocks = toClocks(i);  // Compressed calculation method
+            System.out.println(String.format("[s%02d] %9f; %02d", i, clocks, Math.round(clocks)));
         }
         //** ----
 
