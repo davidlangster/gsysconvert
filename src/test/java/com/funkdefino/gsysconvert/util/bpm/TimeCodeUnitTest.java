@@ -67,7 +67,7 @@ public final class TimeCodeUnitTest extends CTestCase {
         //** ----
         for(int i = 0; i < 30; i++) {
             double clocks = toClocks(i);  // Compressed calculation method
-            System.out.println(String.format("[s%02d] %9f; %02d", i, clocks, Math.round(clocks)));
+            System.out.println(String.format("[F%02d] %9f; %02d", i, clocks, Math.round(clocks)));
         }
         //** ----
 
@@ -82,6 +82,16 @@ public final class TimeCodeUnitTest extends CTestCase {
 
     }   // test05()
 
+    public void test06() {
+
+        TimeCode tc = new TimeCode(0,0,0,0);
+        for(int i = 0; i < 30; i++) {
+            tc.frames = i;
+            toBars(tc);
+        }
+
+    }   // test06()
+
     //** -------------------------------------------------------- Implementation
 
     private static double toClocks(double frames){
@@ -90,7 +100,8 @@ public final class TimeCodeUnitTest extends CTestCase {
 
     private static void toBars(TimeCode tc) {
 
-        long clocks = Math.round(toClocks(tc.toFrames()));
+        // long clocks = Math.round(toClocks(tc.toFrames()));
+        long clocks = (long)Math.floor(toClocks(tc.toFrames()));
 
         int bars   = (int)(clocks / 96);
         clocks    -= (bars  * 96);
@@ -98,7 +109,10 @@ public final class TimeCodeUnitTest extends CTestCase {
         clocks    -= (beats * 24);
         int frames = (int)clocks;
 
-        System.out.println(String.format("[%02d:%02d:%02d]", bars+1, beats+1, frames));
+        String s = String.format("[%02d:%02d:%02d] %c",
+                                   bars+1, beats+1, frames, clocks == 0 ? '*' : ' ' );
+
+        System.out.println(s);
 
     }   // toBars()
 
